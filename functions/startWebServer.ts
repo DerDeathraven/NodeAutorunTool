@@ -1,13 +1,15 @@
-import express from "express";
-import { PORT } from "../constants";
-export const app = express();
+import { readdirSync } from "fs";
+import { Server } from "socket.io";
+import { PORT, SCRIPT_FOLDER } from "../constants";
+import { getNodeScriptsInFolder } from "./identNodeScripts";
 
 export function startWebServer() {
-  app.get("/", (req, res) => {
-    res.send("Hello World!");
-  });
-
-  app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`);
+  const io = new Server(PORT);
+  io.on("connection", (socket) => {
+    console.log("[Socket]Connection established");
+    socket.on("getScripts", (n, callback) => {
+      const scripts = getNodeScriptsInFolder(SCRIPT_FOLDER);
+      callback(scripts);
+    });
   });
 }
