@@ -1,6 +1,6 @@
-import { readdirSync } from "fs";
 import { Server } from "socket.io";
 import { PORT, SCRIPT_FOLDER } from "../constants";
+import { handleScriptCom } from "./handleScriptCom";
 import { getNodeScriptsInFolder } from "./identNodeScripts";
 
 export function startWebServer() {
@@ -11,5 +11,8 @@ export function startWebServer() {
       const scripts = getNodeScriptsInFolder(SCRIPT_FOLDER);
       callback(scripts);
     });
+    socket.on("scriptComLane", (msg, callback) =>
+      handleScriptCom(msg, callback, socket)
+    );
   });
 }

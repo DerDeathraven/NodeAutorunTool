@@ -1,5 +1,10 @@
+import { Script } from "./classes/Script";
 import { executeAutorun } from "./functions/executeAutorun";
 import { startWebServer } from "./functions/startWebServer";
-
-executeAutorun();
-startWebServer();
+export var scriptArr: Script[];
+async function init() {
+  scriptArr = await executeAutorun();
+  scriptArr.forEach((script) => console.log(script.log));
+  startWebServer();
+}
+init();
