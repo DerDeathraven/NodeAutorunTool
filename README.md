@@ -1,4 +1,5 @@
 # Node Autorun Tool
+[![wakatime](https://wakatime.com/badge/user/baf819ad-1920-42f7-9957-867bec17c57c/project/47de81b1-c072-41c3-a191-7d8dd692e760.svg)](https://wakatime.com/badge/user/baf819ad-1920-42f7-9957-867bec17c57c/project/47de81b1-c072-41c3-a191-7d8dd692e760)
 
 ## General idea
 
