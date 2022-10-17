@@ -10,16 +10,20 @@ export class Script {
   private readonly path: string;
   private readonly executable: string;
   readonly events!: EventEmitter;
+  private startedTime: number;
   public log: Array<LogEntry>;
   constructor(folder: string) {
     this.folder = folder;
     this.path = join(SCRIPT_FOLDER, folder);
     this.executable = getEntrypoint(this.path)!;
     this.events = new EventEmitter();
+    this.startedTime = 0;
     this.log = [];
   }
   public async execute() {
+    this.startedTime = Date.now();
     const child = spawn("node", [join(this.path, this.executable)]);
+
     child.stdout.on("data", (data) => {
       const msg: LogEntry = { time: new Date(), type: "DATA", output: data };
       this.log.push(msg);
@@ -32,7 +36,11 @@ export class Script {
     });
     child.on("close", (code, signal) => {
       if (code == 0) {
-        const msg: LogEntry = { time: new Date(), type: "FINISH", output: "" };
+        const msg: LogEntry = {
+          time: new Date(),
+          type: "FINISH",
+          output: ``,
+        };
         this.log.push(msg);
         this.events.emit("msg", msg);
       } else {
@@ -48,5 +56,12 @@ export class Script {
     );
     const finished = testArr.find((log) => log.type == "FINISH");
     return !!finished;
+  }
+  public async sendOldLogs(): Promise<void> {
+    this.log.forEach((log) => {
+      log.isOld = true;
+      console.log(log.type);
+      this.events.emit("msg", log);
+    });
   }
 }

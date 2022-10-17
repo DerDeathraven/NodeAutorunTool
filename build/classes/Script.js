@@ -14,15 +14,18 @@ class Script {
     path;
     executable;
     events;
+    startedTime;
     log;
     constructor(folder) {
         this.folder = folder;
         this.path = (0, path_1.join)(constants_1.SCRIPT_FOLDER, folder);
         this.executable = (0, runScript_1.getEntrypoint)(this.path);
         this.events = new node_events_1.default();
+        this.startedTime = 0;
         this.log = [];
     }
     async execute() {
+        this.startedTime = Date.now();
         const child = (0, child_process_1.spawn)("node", [(0, path_1.join)(this.path, this.executable)]);
         child.stdout.on("data", (data) => {
             const msg = { time: new Date(), type: "DATA", output: data };
@@ -36,7 +39,11 @@ class Script {
         });
         child.on("close", (code, signal) => {
             if (code == 0) {
-                const msg = { time: new Date(), type: "FINISH", output: "" };
+                const msg = {
+                    time: new Date(),
+                    type: "FINISH",
+                    output: ``,
+                };
                 this.log.push(msg);
                 this.events.emit("msg", msg);
             }
@@ -51,6 +58,13 @@ class Script {
         const testArr = this.log.filter((log) => log.time.getDate() == new Date().getDate());
         const finished = testArr.find((log) => log.type == "FINISH");
         return !!finished;
+    }
+    async sendOldLogs() {
+        this.log.forEach((log) => {
+            log.isOld = true;
+            console.log(log.type);
+            this.events.emit("msg", log);
+        });
     }
 }
 exports.Script = Script;
