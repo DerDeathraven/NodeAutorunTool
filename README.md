@@ -15,7 +15,7 @@ so if you want this to work on your machine you have to manualy set the folder c
 - Manual Execution of Scripts
 
 ## Frontend
-The frontend is bundled in this Repo but if you want to see the code for it, I added a [Repo](https://github.com/DerDeathraven/NodeAutorunToolFrontend)
+The frontend is bundled in this Repo but if you want to see the code for it, I added a [Repo](https://github.com/DerDeathraven/NodeAutorunToolFrontend) containg the raw code.
 
 ## Wishlist
 
