@@ -51,11 +51,8 @@ export class Script {
     });
   }
   public getFinished(): Boolean {
-    const testArr = this.log.filter(
-      (log) => log.time.getDate() == new Date().getDate()
-    );
-    const finished = testArr.find((log) => log.type == "FINISH");
-    return !!finished;
+    const lastLog = this.log[-1];
+    return lastLog.type == "FINISH";
   }
   public async sendOldLogs(): Promise<void> {
     this.log.forEach((log) => {

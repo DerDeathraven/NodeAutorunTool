@@ -5,6 +5,6 @@ export var scriptArr: Script[];
 async function init() {
   scriptArr = await executeAutorun();
   scriptArr.forEach((script) => console.log(script.log));
-  startWebServer();
+  startWebServer(__dirname);
 }
 init();
