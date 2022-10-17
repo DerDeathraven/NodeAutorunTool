@@ -14,6 +14,9 @@ so if you want this to work on your machine you have to manualy set the folder c
 - Logs for Completed Scripts
 - Manual Execution of Scripts
 
+## Frontend
+The frontend is bundled in this Repo but if you want to see the code for it, I added a [Repo](https://github.com/DerDeathraven/NodeAutorunToolFrontend)
+
 ## Wishlist
 
 - Automatic Server Starts. (something like Node-Red or smth)
