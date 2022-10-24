@@ -29,9 +29,7 @@ function scriptExecuteCommand(
     callback("ERROR: Script not found");
     return;
   }
-  let counter = 0;
   const event = script!.events.on("msg", (msg: LogEntry) => {
-    console.log(counter++);
     socket.emit("scriptOut", msg);
     switch (msg.type) {
       case "CRASH":

@@ -15,6 +15,7 @@ export function startWebServer(rootFolder: string) {
   initExpress(rootFolder);
   initSocket();
 }
+
 function scriptGetGlobalLogs(msg: string, callback: Function) {
   const retObj: { [key: string]: LogEntry[] } = {};
   scriptArr.forEach((script) => {
@@ -22,15 +23,20 @@ function scriptGetGlobalLogs(msg: string, callback: Function) {
   });
   callback(retObj);
 }
+
 function initExpress(rootFolder: string) {
   app.use(express.static(join(rootFolder, "dist")));
   app.get("/", (req, res) => {
     res.sendFile(join(rootFolder, "dist", "index.html"));
   });
+  app.get("/api/:name", (req, res) => {
+    scriptArr.find((script) => script.folder === req.params.name)?.execute();
+  });
   server.listen(PORT + 1, () => {
     console.log(`Server is running on port ${PORT + 1}`);
   });
 }
+
 function initSocket() {
   io.on("connection", (socket) => {
     console.log("[Socket]Connection established");
