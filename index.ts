@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Script } from "./classes/Script";
 import { executeAutorun } from "./functions/executeAutorun";
 import { startWebServer } from "./functions/startWebServer";
