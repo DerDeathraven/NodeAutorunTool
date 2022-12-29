@@ -9,7 +9,7 @@ import { getNodeScriptsInFolder } from "./identNodeScripts";
 import { LogEntry } from "./types/LogEntry";
 const app = express();
 const server = createServer(app);
-const io = new Server(PORT);
+const io = new Server(server);
 
 export function startWebServer(rootFolder: string) {
   initExpress(rootFolder);
@@ -32,12 +32,13 @@ function initExpress(rootFolder: string) {
   app.get("/api/:name", (req, res) => {
     scriptArr.find((script) => script.folder === req.params.name)?.execute();
   });
-  server.listen(PORT + 1, () => {
-    console.log(`Server is running on port ${PORT + 1}`);
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 }
 
 function initSocket() {
+  console.log(io);
   io.on("connection", (socket) => {
     console.log("[Socket]Connection established");
     socket.on("getScripts", (n, callback) => {
